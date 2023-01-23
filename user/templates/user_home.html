@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<Html>
+
+<head>
+    <h1 align="center"> User Registration</h1>
+
+
+     <link rel="stylesheet" href="{% static 'userRecord/css/bootstrap.css'  %}" />
+</head>
+<body bgcolor="lightblue">
+<div class="container mt-5">
+  <h2 class="text-center alert alert-danger"> Django <C></C>CRUD</h2>
+    <div class="row">
+       <div class="col-sm-4">
+         <h4 class="text-center alert alert-danger">Add/Update</h4>
+         <form action="" method="POST">
+          {% csrf_token %}
+             <label> Name: </label>
+             <input type="text" id="name" size="15"/> <br> <br>
+             <label>Role :</label>
+             <select id="role">
+                 <option value="Student">Student</option>
+                 <option value="Teacher">Teacher</option>
+             </select>
+             <br><br>
+
+             <label>Birthday:</label>
+             <input type="date" id="birthday" name="birthday">
+             <br>
+             <br>
+
+            <label> Address:</label>
+            <br>
+             <textarea id="address" cols="50" rows="5" value="address"></textarea>
+            <br>
+            <br>
+             <div id="subjects">
+             <label>Subjects:</label>
+             <br>
+
+              {% for subject  in subjects %}
+                <input  type="checkbox" id="mycheck"  value={{subject.id}} name="mycheck"/>{{subject.name}}
+             <br>
+                 {% endfor %}
+             </div>
+             <div>
+                <label>Standards:</label>
+                 <select id="standard">
+                     {% for standard in standard %}
+                     <option value={{standard.id}}>{{standard.name}}</option>
+                     {% endfor %}
+                 </select>
+             </div>
+             <br><br>
+             <label>Upload File :</label>
+             <input type="file" id="myfile" name="filename">
+             <br><br>
+             <label>Gender :</label><br>
+             <input type="radio" name="gender" value="Male"/> Male <br>
+             <input type="radio" name="gender" value="Female"/> Female <br>
+             <input type="radio" name="gender" value="Other"/> Other
+             <br><br>
+             <label>Status :</label>
+             <select id="status">
+             <option value="Active">active</option>
+             <option value="Suspended">suspended</option>
+             <option value="Deleted">deleted</option>
+            </select>
+           <br>
+          <input type="submit" class="btn btn-success" id="btnsave" value="save">
+          </form>
+           <div id="msg" class="alert alert-danger" style="display:none" ></div>
+
+        </div>
+        <div class="col-sm-7">
+            <h4 class="text-center alert alert-info">Show User Data</h4>
+            <table border="2" class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">ROLE</th>
+                    <th scope="col">DOB</th>
+                    <th scope="col">ADDRESS</th>
+                    <th scope="col">SUBJECTS</th>
+                    <th scope="col">STANDARD</th>
+                    <th scope="col">FILE</th>
+                    <th scope="col">GENDER</th>
+                    <th scope="col">STATUS</th>
+                    <th scope="col">ACTION</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                  {% for user in user %}
+
+                     <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.role}}</td>
+                    <td>{{user.date_of_birth}}</td>
+                    <td>{{user.address}}</td>
+                    <td>{{user.subjects}}</td>
+                    <td>{{user.standard}}</td>
+                    <td>{{user.kyc_doc}}</td>
+                    <td>{{user.gender}}</td>
+                    <td>{{user.status}}</td>
+
+                    <td>
+                         <input
+                                 type="button"
+                                 data-sid="{{user.id}}"
+                                 class="btn btn-warning btn-sm btn-edit"
+                                 value="Edit"/>
+                        <input
+                                 type="button"
+                                 data-sid="{{user.id}}"
+                                 class="btn btn-danger btn-sm btn-del"
+                                 value="Delete"/>
+
+                   </td>
+                   </tr>
+                   {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+      </div>
+</div>
+
+<script src="{% static 'userRecord/js/jquery.js'%}"></script>
+<script src="{% static 'userRecord/js/bootstrap.js'%}"></script>
+<script src="{% static 'userRecord/js/popper.js'%}"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+{% include "ajax.html" %}
+
+
+</body>
+ {% endblock content %}
+</html>

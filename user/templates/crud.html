@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Django Ajax CRUD{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Django Ajax CRUD</h1>
+    <div class="row">
+      <div class="col-md-4 ">
+        <h3>ADD USER</h3>
+        <form id="addUser" action="">
+            <label> Name: </label>
+                <input type="text" name="Name" size="15"/> <br> <br>
+
+            <label>Role :</label>
+                <select>
+                        <option value="Student">Student</option>
+                        <option value="Teacher">Teacher</option>
+                 </select>
+                <br><br>
+
+            <label> Address</label>
+            <br>
+            <textarea cols="80" rows="5" value="address"></textarea>
+            <br>
+            <br>
+            <label>Phone :</label>
+              <input type="text" name="country code"  value="+91" size="2"/>
+              <input type="number" name="phone" size="10"/> <br> <br>
+
+            <label>Subjects:</label>
+            <br>
+            <input type="checkbox" name="Maths"/> Maths <br>
+            <input type="checkbox" name="Chemistry"/> Chemistry <br>
+            <input type="checkbox" name="English"/> English <br>
+            <input type="checkbox" name="Physics"/> Physics <br>
+            <input type="checkbox" name="Hindi"/> Hindi <br>
+             <br>
+            <label>Standards:</label>
+
+              <select>
+                 <option value="9">9</option>
+                 <option value="10">10</option>
+                 <option value="11">11</option>
+                  <option value="12">12</option>
+              </select>
+            <br>
+            <br>
+            <label>Upload File :</label>
+              <input type="file" id="myFile" name="filename">
+            <br><br>
+
+            <label>Gender :</label>
+           <br>
+                 <input type="radio" name="male"/> Male <br>
+                 <input type="radio" name="female"/> Female <br>
+                <input type="radio" name="other"/> Other
+                <br><br>
+            <label>Status :</label>
+              <select>
+                 <option value="Active">active</option>
+                  <option value="Suspended">suspended</option>
+                  <option value="Deleted">deleted</option>
+              </select>
+               <br>
+
+            <button class="btn btn-primary form-control" type="submit">SUBMIT</button>
+           </form>
+      </div>
+
+      <div class="col-md-8">
+        <h3>USERS</h3>
+        <table id="userTable" class="table table-striped">
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Address</th>
+            <th>subjects</th>
+            <th>standard</th>
+           <th>date_of_birth</th>
+           <th>gender</th>
+           <th>kyc_doc</th>
+           <th>status</th>
+
+          </tr>
+          {% if users %}
+          {% for user in users %}
+          <tr id="user-{{user.id}}">
+              <td class="userName userData" name="name">{{user.name}}</td>
+              <td class="userRole userData" name="Role">{{user.Role}}</td>
+              <td class="userAddress userData" name="Address">{{user.Address}}</td>
+              <td class="usersubjects userData" name="subjects">{{user.subjects}}</td>
+              <td class="userstandard userData" name="standard">{{user.standard}}</td>
+              <td class="userdate_of_birth userData" name="date_of_birth">{{user.date_of_birth}}
+              </td>   <td class="usergender userData" name="gender">{{user.gender}}</td>
+              <td class="userkyc_docs userData" name="kyc_doc">{{user.kyc_doc}}</td>
+              <td class="userstatus userData" name="status">{{user.status}}</td>
+              <td align="center">
+                  <button class="btn btn-success form-control" onClick="editUser({{user.id}})">EDIT</button>
+              </td>
+              <td align="center">
+                  <button class="btn btn-danger form-control" onClick="deleteUser({{user.id}})">DELETE</button>
+              </td>
+          </tr>
+          {% endfor %}
+          {% else %}
+            No Users
+          {% endif %}
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+          <h4 class="modal-title" id="myModalLabel">Update User</h4>
+        </div>
+        <form id="updateUser" action="">
+        <div class="modal-body">
+
+        </div>
+        <div class="modal-footer">
+             <label> Name: </label>
+                <input type="text" name="Name" size="15"/> <br> <br>
+
+            <label>Role :</label>
+                <select>
+                        <option value="Student">Student</option>
+                        <option value="Teacher">Teacher</option>
+                 </select>
+                <br><br>
+
+            <label> Address</label>
+            <br>
+            <textarea cols="80" rows="5" value="address"></textarea>
+            <br>
+            <br>
+            <label>Phone :</label>
+              <input type="text" name="country code"  value="+91" size="2"/>
+              <input type="number" name="phone" size="10"/> <br> <br>
+
+            <label>Subjects:</label>
+            <br>
+            <input type="checkbox" name="Maths"/> Maths <br>
+            <input type="checkbox" name="Chemistry"/> Chemistry <br>
+            <input type="checkbox" name="English"/> English <br>
+            <input type="checkbox" name="Physics"/> Physics <br>
+            <input type="checkbox" name="Hindi"/> Hindi <br>
+             <br>
+            <label>Standards:</label>
+
+              <select>
+                 <option value="9">9</option>
+                 <option value="10">10</option>
+                 <option value="11">11</option>
+                  <option value="12">12</option>
+              </select>
+            <br>
+            <br>
+            <label>Upload File :</label>
+              <input type="file" id="myFile" name="filename">
+            <br><br>
+
+            <label>Gender :</label>
+           <br>
+                 <input type="radio" name="male"/> Male <br>
+                 <input type="radio" name="female"/> Female <br>
+                <input type="radio" name="other"/> Other
+                <br><br>
+            <label>Status :</label>
+              <select>
+                 <option value="Active">active</option>
+                  <option value="Suspended">suspended</option>
+                  <option value="Deleted">deleted</option>
+              </select>
+               <br>
+            <button type="submit" class="btn btn-primary" >Save changes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block javascript %}
+{% endblock javascript %}

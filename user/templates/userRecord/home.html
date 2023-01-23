@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Ajax CRUD</title>
+    <link rel="stylesheet" href="{% static 'userRecord/css/bootstrap.css'  %}">
+</head>
+
+<body>
+<div class="container mt-5">
+  <h2 class="text-center alert alert-danger"> Django <C></C>CRUD</h2>
+    <div class="row">
+       <div class="col-sm-4">
+         <h4 class="text-center alert alert-danger">Add/Update</h4>
+         <form action="" method="post">{% csrf_token %}
+             <input type="hidden" name="stuid" id="stuid"/>
+             <label id="nameid"> Name: </label>
+             <input type="text" name="Name" size="15"/> <br> <br>
+              <label id="roleid">Role :</label>
+             <select>
+            <option value="Student">Student</option>
+            <option value="Teacher">Teacher</option>
+            </select><br><br>
+             <label id="addressid"> Address</label>
+             <br>
+             <textarea cols="80" rows="5" value="address">
+            </textarea><br><br>
+             <label id="subjectsid">Subjects:</label><br>
+            <input type="checkbox" name="Maths"/> Maths <br>
+             <input type="checkbox" name="Chemistry"/> Chemistry <br>
+            <input type="checkbox" name="English"/> English <br>
+            <input type="checkbox" name="Physics"/> Physics <br>
+             <input type="checkbox" name="Hindi"/> Hindi <br>
+            <br>
+            <label id="standardid">Standards:</label>
+             <select>
+               <option value="9">9</option>
+               <option value="10">10</option>
+               <option value="11">11</option>
+               <option value="12">12</option>
+             </select><br><br>
+
+
+            <label id="kycdocid">Kyc_Doc :</label>
+           <input type="file" id="myFile" name="filename">
+             <br><br>
+             <label id="genderid">Gender :</label>
+          <br>
+         <input type="radio" name="male"/> Male <br>
+          <input type="radio" name="female"/> Female <br>
+          <input type="radio" name="other"/> Other
+         <br>
+         <br><label id="statusid">Status :</label>
+    <select>
+        <option value="Active">active</option>
+        <option value="Suspended">suspended</option>
+        <option value="Deleted">deleted</option>
+    </select>
+    <br>
+             <input type="button" class="btn btn-success" id="btnsave" value="save">
+         </form>
+           <div id="msg" class="alert alert-danger" style="display:none" >
+
+           </div>
+       </div>
+        <div class="col-sm-7">
+            <h4 class="text-center alert alert-info">Show User Data</h4>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">KycDoc</th>
+                    <th scope="col">DateOfBirth</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Standard</th>
+                    <th scope="col">Subjects</th>
+                    <th scope="col">status</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                  {% for st in stu %}
+                     <tr>
+                    <td>{{st._id}}</td>
+                    <td>{{st.name}}</td>
+                    <td>{{st.role}}</td>
+                    <td>{{st.address}}</td>
+                    <td>{{st.kyc_doc}}</td>
+                    <td>{{st.date_of_birth}}</td>
+                    <td>{{st.gender}}</td>
+                    <td>{{st.status}}</td>
+                    <td>{{st.subjects}}</td>
+                    <td>{{st.standard}}</td>
+
+                    <td>
+                         <input
+                                 type="button"
+                                 data-sid="{{st.id}}"
+                                 class="btn btn-warning btn-sm btn-edit"
+                                 value="Edit"/>
+                        <input
+                                 type="button"
+                                 data-sid="{{st.id}}"
+                                 class="btn btn-danger btn-sm btn-del"
+                                 value="Delete"/>
+                   </td>
+                   </tr>
+                   {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+<script src="{% static 'userRecord/js/jquery.js'%}"></script>
+<script src="{% static 'userRecord/js/bootstrap.js'%}"></script>
+<script src="{% static 'userRecord/js/popper.js'%}"></script>
+{% include "userRecord/ajax.html" %}
+</body>
+</html>
+

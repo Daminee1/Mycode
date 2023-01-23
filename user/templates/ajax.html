@@ -1,0 +1,204 @@
+<script>
+$("#btnsave").click(function(e){
+
+        console.log("save <b></b>utton clicked");
+        let name=$("#name").val();
+        let role=$("#role").val();
+        let address=$("#address").val();
+        let date_of_birth=$("#birthday").val();
+        let gender=$("input[name='gender']:checked").val();
+
+       let checkboxes = document.getElementsByName('mycheck');
+       console.log("1111111111111111111",checkboxes)
+        let selected = [];
+        for (var i=0; i<checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            selected.push(checkboxes[i].value);
+        }
+    }
+
+
+
+        let standard=$("#standard").val();
+        let file=$("#myfile").val();
+        let status=$("#status").val();
+        if (name=="")
+        {
+        console.log("Please Enter Name");
+        }
+        else if (role=="")
+        {
+         console.log("Please Enter role");
+        }
+        else if (address=="")
+        {
+       console.log("Please Enter address");
+        }
+        else if (subjects=="")
+        {
+       console.log("Please Enter subjects");
+        }
+       else if (standard=="")
+       {
+       console.log("Please Enter standard");
+       }
+       else if (file=="")
+      {
+       console.log("Please Enter file");
+       }
+      else if (gender=="")
+     {
+      console.log("Please Enter gender");
+      }
+      else if (status=="")
+       {
+      console.log("Please Enter status");
+      }
+
+      else
+     {
+
+     mydata={name:name,role:role,address:address,standard:standard,subjects:selected,status:status,gender:gender,kyc_doc:file,
+     date_of_birth:date_of_birth};
+
+     console.log('ghfgfgfgfgfgfgfgfgfgfg',mydata);
+     console.log('90000000000000000000000',mydata.subjects);
+     $.ajax(
+     {
+     url:"{% url 'User_Details' %}",
+     method: "POST",
+     data:JSON.stringify(mydata),
+     dataType:'',
+     contentType: 'application/json',
+     success:function(data)
+     {
+       console.log(data);
+       $("form")[0].reset();
+
+       }
+
+    });
+}
+e.preventDefault();
+});
+
+
+
+
+<!--delete data-->
+    $(".btn-del").click(function()
+      {
+       console.log("delete button clicked");
+       let id=$(this).attr("data-sid");
+
+      <!--console.log(id);-->
+      mydata={id:id};
+      $.ajax(
+      {
+      url:"{% url 'User_Details' %}",
+       type: 'delete',
+       data:mydata,
+      data:JSON.stringify(mydata),
+      dataType:'',
+      contentType: 'application/json',
+      success:function(data)
+      {
+<!--      if (data['message']=="User Deleted")-->
+<!--      {-->
+      console.log("data deleted ");
+<!--      $(this).closest("tr").fadOut();-->
+<!--      }-->
+<!--      if (data['message']="User Deleted Failed")-->
+<!--      {-->
+<!--      console.log("unable data deleted ");-->
+<!--      }-->
+
+      },
+      });
+      });
+
+
+
+
+
+
+
+
+
+// update data
+        $(".btn-edit").click(function () {
+            console.log("edit button clicked");
+            let id = $(this).attr("data-sid");
+            let name = $("#name").val();
+            let role = $("#role").val();
+            let address = $("#address").val();
+            let date_of_birth = $("#birthday").val();
+            let gender = $("input[name='gender']:checked").val();
+            let checkboxes = document.getElementsByName('mycheck');
+            // console.log("1111111111111111111", checkboxes)
+            let selected = [];
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    selected.push(checkboxes[i].value);
+                }
+            }
+            let standard = $("#standard").val();
+            let file = $("#myfile").val();
+            let status = $("#status").val();
+            mydata = { id:id,name: name, role: role, address: address, standard: standard, subjects: selected, status: status, gender: gender, kyc_doc: file,
+                    date_of_birth: date_of_birth
+                };
+                console.log(date_of_birth)
+            mydata1={id:id}
+
+           $.ajax({
+                url: "{% url 'User_Details_Get' %}",
+                type: 'get',
+                data:mydata1,
+                success: function (data){
+                 console.log("1111111111111111111111111111111111", data['result'][0]['date_of_birth']);
+                  console.log("1111111111111111111111111111111111", data);
+<!--                  console.log(date)-->
+                    $("#name").val(data['result'][0]['name']);
+                    $("#role").val(data['result'][0]['role']);
+                    $("#address").val(data['result'][0]['address']);
+                    $("#standard").val(data['result'][0]['standard']);
+                    $("#subjects").val(data['result'][0]['subjects']);
+                    // $("#myfile").val(data['result'][0]['kyc_doc']);
+                    $("input[name='gender']:checked").val(data['result'][0]['gender']);
+                    $("#status").val(data['result'][0]['status']);
+<!--                    $("#birthday").val(date);-->
+
+
+                    $("#btnsave").click(function (e) {
+
+
+                        $.ajax({
+                            url: "{% url 'User_Details' %}",
+                            type: 'patch',
+                            data: mydata,
+                            success: function (data) {
+                                console.log("update")
+
+                            }
+                        })
+
+                    })
+
+
+
+
+                },
+            });
+
+        });
+
+
+
+
+
+
+
+
+
+</script>
